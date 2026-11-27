@@ -12,20 +12,21 @@ st.caption("Explore high-dimensional genetic and clinical data with PCA and LDA.
 with st.sidebar:
     st.header("Dataset")
     uploaded = st.file_uploader("Upload your Kaggle CSV file", type=["csv"])
-    default_path = Path("data/genetic_disorders.csv")
+
+    default_path = Path("genetic_disease_dataset.csv")
+
     if uploaded is not None:
-        df = pd.read_csv(uploaded)
+        df = pd.read_csv(uploaded, encoding="latin1", on_bad_lines="skip")
         st.success("Uploaded dataset loaded.")
     elif default_path.exists():
-        df = pd.read_csv(default_path)
-        st.success(f"Loaded {default_path}")
+        df = pd.read_csv(default_path, encoding="latin1", on_bad_lines="skip")
+        st.success("Default genetic dataset loaded successfully.")
     else:
-        st.info("Upload a CSV or place it at data/genetic_disorders.csv")
-        st.markdown("[Open Kaggle dataset](https://www.kaggle.com/datasets/aibuzz/predict-the-genetic-disorders-datasetof-genomes/data)")
+        st.error("Default dataset not found.")
         st.stop()
 
     st.write(f"Rows: **{len(df):,}** · Columns: **{len(df.columns):,}**")
-    suggested = guess_target(df)
+    suggested = "Disease" if "Disease" in df.columns else guess_target(df)
     target_options = ["(No target / unsupervised)"] + list(df.columns)
     default_index = target_options.index(suggested) if suggested in target_options else 0
     target_choice = st.selectbox("Class / target column for LDA (optional)", target_options, index=default_index)
