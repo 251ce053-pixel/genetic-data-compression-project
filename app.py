@@ -20,22 +20,6 @@ with st.sidebar:
     if uploaded is not None:
         df = pd.read_csv(uploaded, encoding="latin1", on_bad_lines="skip")
         st.success("Uploaded dataset loaded.")
-
-    elif default_path.exists():
-        df = pd.read_csv(default_path, encoding="latin1", on_bad_lines="skip")
-        st.success("Default genetic dataset loaded successfully.")
-
-    else:
-        st.error("Default dataset not found.")
-        st.stop()
-    uploaded = st.file_uploader("Upload your Kaggle CSV file", type=["csv"])
-
-   BASE_DIR = Path(__file__).resolve().parent
-default_path = BASE_DIR / "genetic_disease_dataset.csv"
-
-    if uploaded is not None:
-        df = pd.read_csv(uploaded, encoding="latin1", on_bad_lines="skip")
-        st.success("Uploaded dataset loaded.")
     elif default_path.exists():
         df = pd.read_csv(default_path, encoding="latin1", on_bad_lines="skip")
         st.success("Default genetic dataset loaded successfully.")
