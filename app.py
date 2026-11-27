@@ -13,7 +13,8 @@ with st.sidebar:
     st.header("Dataset")
     uploaded = st.file_uploader("Upload your Kaggle CSV file", type=["csv"])
 
-    default_path = Path("genetic_disease_dataset.csv")
+   BASE_DIR = Path(__file__).resolve().parent
+default_path = BASE_DIR / "genetic_disease_dataset.csv"
 
     if uploaded is not None:
         df = pd.read_csv(uploaded, encoding="latin1", on_bad_lines="skip")
